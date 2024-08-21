@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add User - IAM System</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,600" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="favicon-16x16.png">
+  <style>
+    /* General body styles */
+    body {
+      background: #0a0a0a;
+      padding: 50px 0;
+      color: #fff;
+      font-family: 'Titillium Web', sans-serif;
+    }
+
+    /* Header styles */
+    header {
+      display: flex;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: #0a0a0a;
+      margin-right: 70px;
+    }
+
+    header .logo {
+      font-size: 24px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    header nav {
+      display: flex;
+      align-items: center;
+      gap: 125px;
+      margin-right: 75px;
+    }
+
+    header button {
+      background: none;
+      border: none;
+      font-family: 'Titillium Web', sans-serif;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin: 0 .5em;
+      padding: .5em .8em;
+      color: rgba(255,255,255,.5);
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    header button a {
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      font-size: 20px;
+      z-index: 1;
+    }
+
+    header button::before,
+    header button::after {
+      content: '';
+      height: 14px;
+      width: 14px;
+      position: absolute;
+      transition: all .35s ease;
+      opacity: 0;
+      z-index: 0;
+    }
+
+    header button::before {
+      right: 0;
+      top: 0;
+      border-top: 3px solid #3E8914;
+      border-right: 3px solid #2E640F;
+      transform: translate(-100%, 50%);
+    }
+
+    header button::after {
+      left: 0;
+      bottom: 0;
+      border-bottom: 3px solid #2E640F;
+      border-left: 3px solid #3E8914;
+      transform: translate(100%, -50%);
+    }
+
+    header button:hover::before,
+    header button:hover::after {
+      transform: translate(0, 0);
+      opacity: 1;
+    }
+
+    header button:hover a {
+      color: #3FFF00;
+    }
+
+    /* Main content styles */
+    main {
+      text-align: center;
+      margin-top: 150px;
+    }
+
+    main h1 {
+      margin-bottom: 20px;
+    }
+
+    .container {
+      background: black;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    label {
+      margin: 10px 0 5px;
+      margin-right: 455px;
+
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"] {
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+      width: 500px;
+    }
+
+    button[type="submit"] {
+      background: #0a0a0a;
+      border: 2px solid #3E8914;
+      color: #fff;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-family: 'Titillium Web', sans-serif;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    button[type="submit"]:hover {
+      background: #3FFF00;
+    }
+
+    /* Footer styles */
+    footer {
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            height: 3.7%;
+            width: 100%;
+            background: #333;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: #0ffa5a;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">IAM System</div>
+    <nav>
+      <button><a href="1.welcome.html">HOME</a></button>
+      <button><a href="5.DASHBOARD.html">DASHBOARD</a></button>
+      <button><a href="1.welcome.html">LOGOUT</a></button>
+    </div>
+  </nav>
+  </header>
+
+  <main>
+    <h1>Add User to Project</h1>
+    <div class="container">
+      <form id="user-form">
+        <label for="admin-id">Admin ID:</label>
+        <input type="text" id="admin-id" required>
+
+        <label for="project-title">Project Title:</label>
+        <input type="text" id="project-title" required>
+
+        <h2>Add User</h2>
+
+        <label for="user-id">User ID:</label>
+        <input type="text" id="user-id" required>
+
+        <label for="user-name">User Name:</label>
+        <input type="text" id="user-name" required>
+
+        <label for="user-email">Email:</label>
+        <input type="email" id="user-email" required>
+
+        <label for="user-phone">Phone Number:</label>
+        <input type="tel" id="user-phone" required>
+
+        <label for="directory-designation">Directory Designation:</label>
+        <input type="text" id="directory-designation" required>
+
+        <label for="role">Role:</label>
+        <input type="text" id="role" required>
+
+        <label for="directory-accessible">Directory Accessible:</label>
+        <input type="text" id="directory-accessible" required>
+
+        <label for="user-ip">User IP:</label>
+        <input type="text" id="user-ip" required>
+
+        <button type="submit">Add User to Project</button>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 IAM System. All rights reserved.</p>
+    <p><a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Service</a></p>
+    <p>Contact: support@iam.com</p>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDhqwM0fuSacUUedhspxsZdhToh3sA3J2o",
+      authDomain: "iam-dashborad.firebaseapp.com",
+      databaseURL: "https://iam-dashborad-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "iam-dashborad",
+      storageBucket: "iam-dashborad.appspot.com",
+      messagingSenderId: "162560536071",
+      appId: "1:162560536071:web:3d253c875151b7bd3b04a2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    document.getElementById('user-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const adminId = document.getElementById('admin-id').value;
+      const projectTitle = document.getElementById('project-title').value;
+
+      const userId = document.getElementById('user-id').value;
+      const userName = document.getElementById('user-name').value;
+      const userEmail = document.getElementById('user-email').value;
+      const userPhone = document.getElementById('user-phone').value;
+      const directoryDesignation = document.getElementById('directory-designation').value;
+      const role = document.getElementById('role').value;
+      const directoryAccessible = document.getElementById('directory-accessible').value;
+      const userIP = document.getElementById('user-ip').value;
+
+      const userData = {
+        name: userName,
+        email: userEmail,
+        phone: userPhone,
+        directoryDesignation: directoryDesignation,
+        role: role,
+        directoryAccessible: directoryAccessible,
+        userIP: userIP
+      };
+
+      set(ref(database, 'admins/' + adminId + '/projects/' + projectTitle + '/users/' + userId), userData)
+        .then(() => {
+          alert('User added successfully!');
+          document.getElementById('user-form').reset();
+        })
+        .catch((error) => {
+          alert('Error adding user: ' + error.message);
+        });
+    });
+  </script>
+</body>
+</html>

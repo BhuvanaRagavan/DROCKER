@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin User Adding Page</title>
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,600" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="favicon-16x16.png">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Titillium+Web:400,600');
+
+        body {
+            background: #0a0a0a;
+            padding: 50px 0;
+            color: #fff;
+            font-family: 'Titillium Web', sans-serif;
+        }
+
+        header {
+            display: flex;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #0a0a0a;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 125px;
+            margin-right: 75px;
+        }
+
+        header button {
+            background: none;
+            border: none;
+            font-family: 'Titillium Web', sans-serif;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin: 0 .5em;
+            padding: .5em .8em;
+            color: rgba(255,255,255,.5);
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        header button a {
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            font-size: 20px;
+            z-index: 1;
+        }
+
+        header button::before,
+        header button::after {
+            content: '';
+            height: 14px;
+            width: 14px;
+            position: absolute;
+            transition: all .35s ease;
+            opacity: 0;
+            z-index: 0;
+        }
+
+        header button::before {
+            right: 0;
+            top: 0;
+            border-top: 3px solid #3E8914;
+            border-right: 3px solid #2E640F;
+            transform: translate(-100%, 50%);
+        }
+
+        header button::after {
+            left: 0;
+            bottom: 0;
+            border-bottom: 3px solid #2E640F;
+            border-left: 3px solid #3E8914;
+            transform: translate(100%, -50%);
+        }
+
+        header button:hover::before,
+        header button:hover::after {
+            transform: translate(0, 0);
+            opacity: 1;
+        }
+
+        header button:hover a {
+            color:#3FFF00;
+        }
+
+        main {
+            text-align: center;
+            margin-top: 150px;
+        }
+
+        main h1 {
+            margin-bottom: 20px;
+        }
+
+        .container {
+            background: black;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            margin-right: 455px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+            width: 500px;
+        }
+
+        button[type="submit"] {
+            background: #0a0a0a;
+            border: 2px solid #3E8914;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'Titillium Web', sans-serif;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        button[type="submit"]:hover {
+            background:#3FFF00;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #333;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: #0ffa5a;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">IAM MANAGEMENT</div>
+        <nav>
+            <button><a href="1.welcome.html">Home</a></button>
+            <button><a href="ABOUT PAGE.html">About</a></button>
+            <button><a href="#contact">Contact</a></button>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Add Admin User</h1>
+        <div class="container">
+            <form id="addAdminForm">
+                <label for="adminUsername">Username:</label>
+                <input type="text" id="adminUsername" name="adminUsername" required>
+                <label for="adminPassword">Password:</label>
+                <input type="password" id="adminPassword" name="adminPassword" required>
+                <button type="submit">Add Admin</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 My Website. All rights reserved.</p>
+        <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Service</a>
+    </footer>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhqwM0fuSacUUedhspxsZdhToh3sA3J2o",
+            authDomain: "iam-dashborad.firebaseapp.com",
+            databaseURL: "https://iam-dashborad-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "iam-dashborad",
+            storageBucket: "iam-dashborad.appspot.com",
+            messagingSenderId: "162560536071",
+            appId: "1:162560536071:web:3d253c875151b7bd3b04a2"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth();
+        const database = getDatabase();
+
+        // Handle Add Admin
+        document.getElementById("addAdminForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const adminEmail = document.getElementById("adminUsername").value;
+            const adminPassword = document.getElementById("adminPassword").value;
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, adminEmail, adminPassword);
+                const user = userCredential.user;
+
+                // Update the user in the database
+                const userId = user.uid;
+                await set(ref(database, 'users/' + userId), {
+                    email: adminEmail,
+                    role: 'admin'
+                });
+
+                alert("Admin user added successfully.");
+            } catch (error) {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.error("Error code:", errorCode);
+                alert(errorMessage);
+            }
+        });
+    </script>
+</body>
+</html>

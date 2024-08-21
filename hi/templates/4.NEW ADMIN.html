@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Admin</title>
+    <link rel="stylesheet" href="NEW ADMIN.css"> <!-- Link to your CSS file -->
+</head>
+<link rel="icon" type="image/x-icon" href="favicon-16x16.png">
+<body>
+    <header>
+        <div class="logo">IAM Dashboard</div>
+        <nav>
+            <button><a href="1.welcome.html">Home</a></button>
+            <button><a href="8.VIEW PROJECTS.html">Projects</a></button>
+           
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>Add Admin</h1>
+            <form id="admin-form">
+                <label for="admin-id">Admin ID:</label>
+                <input type="text" id="admin-id" required>
+
+                <label for="name">Name:</label>
+                <input type="text" id="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" required>
+
+                <button type="submit">Add Admin</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 IAM Dashboard. All rights reserved.</p>
+        <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        // Import Firebase modules using ES6 import statements
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhqwM0fuSacUUedhspxsZdhToh3sA3J2o",
+            authDomain: "iam-dashborad.firebaseapp.com",
+            databaseURL: "https://iam-dashborad-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "iam-dashborad",
+            storageBucket: "iam-dashborad.appspot.com",
+            messagingSenderId: "162560536071",
+            appId: "1:162560536071:web:3d253c875151b7bd3b04a2"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Handle form submission
+        document.getElementById('admin-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const adminId = document.getElementById('admin-id').value;
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+
+            const adminData = {
+                name: name,
+                email: email,
+                phone: phone,
+                role: "admin"
+            };
+
+            // Save the data under the admins node with adminId as the primary key
+            set(ref(database, 'admins/' + adminId), adminData)
+            .then(() => {
+                alert('Admin added successfully!');
+                document.getElementById('admin-form').reset();
+            })
+            .catch((error) => {
+                console.error('Error adding admin:', error);
+            });
+        });
+    </script>
+</body>
+</html>

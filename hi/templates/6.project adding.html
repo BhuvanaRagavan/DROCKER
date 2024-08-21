@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Project</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:400,600">
+    <link rel="icon" type="image/x-icon" href="favicon-16x16.png">
+    <style>
+        /* General body styles */
+        body {
+            background: #0a0a0a;
+            padding: 50px 0;
+            color: #fff;
+            font-family: 'Titillium Web', sans-serif;
+        }
+
+        /* Header styles */
+        header {
+            display: flex;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #0a0a0a;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 125px;
+            margin-right: 75px;
+        }
+
+        header button {
+            background: none;
+            border: none;
+            font-family: 'Titillium Web', sans-serif;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin: 0 .5em;
+            padding: .5em .8em;
+            color: rgba(255,255,255,.5);
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        header button a {
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            font-size: 20px;
+            z-index: 1;
+        }
+
+        header button::before,
+        header button::after {
+            content: '';
+            height: 14px;
+            width: 14px;
+            position: absolute;
+            transition: all .35s ease;
+            opacity: 0;
+            z-index: 0;
+        }
+
+        header button::before {
+            right: 0;
+            top: 0;
+            border-top: 3px solid #3E8914;
+            border-right: 3px solid #2E640F;
+            transform: translate(-100%, 50%);
+        }
+
+        header button::after {
+            left: 0;
+            bottom: 0;
+            border-bottom: 3px solid #2E640F;
+            border-left: 3px solid #3E8914;
+            transform: translate(100%, -50%);
+        }
+
+        header button:hover::before,
+        header button:hover::after {
+            transform: translate(0, 0);
+            opacity: 1;
+        }
+
+        header button:hover a {
+            color:#3FFF00;
+        }
+
+        /* Main content styles */
+        main {
+            text-align: center;
+            margin-top: 150px;
+        }
+
+        main h1 {
+            margin-bottom: 20px;
+        }
+
+        .container {
+            background: black;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            margin-right: 455px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+            width: 500px;
+        }
+
+        button[type="submit"] {
+            background: #0a0a0a;
+            border: 2px solid #3E8914;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'Titillium Web', sans-serif;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        button[type="submit"]:hover {
+            background:#3FFF00;
+        }
+
+        /* Footer styles */
+        footer {
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #333;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: #0ffa5a;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">IAM Dashboard</div>
+        <nav>
+            <button><a href="4.NEW ADMIN.html">Add Admin</a></button>
+            <button><a href="8.VIEW PROJECTS.html">VIEW PROJECTS</a></button>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Add Project</h1>
+        <div class="container">
+            <form id="project-form">
+                <label for="admin-id">Admin ID:</label>
+                <input type="text" id="admin-id" required>
+
+                <label for="project-title">Project Title:</label>
+                <input type="text" id="project-title" required>
+
+                <label for="project-duration">Project Duration (in days):</label>
+                <input type="number" id="project-duration" min="1" required>
+
+                <button type="submit">Add Project</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 IAM Dashboard. All rights reserved.</p>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        // Import Firebase modules using ES6 import statements
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import { getDatabase, ref, set, remove } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhqwM0fuSacUUedhspxsZdhToh3sA3J2o",
+            authDomain: "iam-dashborad.firebaseapp.com",
+            databaseURL: "https://iam-dashborad-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "iam-dashborad",
+            storageBucket: "iam-dashborad.appspot.com",
+            messagingSenderId: "162560536071",
+            appId: "1:162560536071:web:3d253c875151b7bd3b04a2"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Function to delete project after the specified duration
+        function scheduleProjectDeletion(adminId, projectTitle, durationDays) {
+            const deletionTime = new Date().getTime() + durationDays * 24 * 60 * 60 * 1000;
+            setTimeout(() => {
+                remove(ref(database, `admins/${adminId}/projects/${projectTitle}`))
+                .catch((error) => {
+                    console.error('Error deleting project:', error);
+                });
+            }, deletionTime - new Date().getTime());
+        }
+
+        // Handle form submission
+        document.getElementById('project-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const adminId = document.getElementById('admin-id').value;
+            const projectTitle = document.getElementById('project-title').value;
+            const projectDuration = parseInt(document.getElementById('project-duration').value);
+
+            const projectData = {
+                title: projectTitle,
+                duration: projectDuration
+            };
+
+            // Save the project data under the specific admin and projects node
+            set(ref(database, `admins/${adminId}/projects/${projectTitle}`), projectData)
+            .then(() => {
+                // Schedule project deletion
+                scheduleProjectDeletion(adminId, projectTitle, projectDuration);
+                alert('Project added successfully!');
+                document.getElementById('project-form').reset();
+            })
+            .catch((error) => {
+                console.error('Error adding project:', error);
+            });
+        });
+    </script>
+</body>
+</html>

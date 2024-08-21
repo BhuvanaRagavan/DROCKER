@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web:400,600');
+
+/* General body styles */
+body {
+  background: #0a0a0a;
+  padding: 50px 0;
+  color: #fff;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+/* Header styles (if needed) */
+header {
+  display: flex;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #0a0a0a;
+}
+
+header .logo {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+  gap: 125px;
+  margin-right: 75px;
+}
+
+header button {
+  background: none;
+  border: none;
+  font-family: 'Titillium Web', sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin: 0 .5em;
+  padding: .5em .8em;
+  color: rgba(255,255,255,.5);
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+header button a {
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  font-size: 20px;
+  z-index: 1;
+}
+
+header button::before,
+header button::after {
+  content: '';
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  transition: all .35s ease;
+  opacity: 0;
+  z-index: 0;
+}
+
+header button::before {
+  right: 0;
+  top: 0;
+  border-top: 3px solid #3E8914;
+  border-right: 3px solid #2E640F;
+  transform: translate(-100%, 50%);
+}
+
+header button::after {
+  left: 0;
+  bottom: 0;
+  border-bottom: 3px solid #2E640F;
+  border-left: 3px solid #3E8914;
+  transform: translate(100%, -50%);
+}
+
+header button:hover::before,
+header button:hover::after {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+header button:hover a {
+  color:#3FFF00;
+}
+
+/* Main content styles */
+main {
+  text-align: center;
+  margin-top: 150px;
+}
+
+main h1 {
+  margin-bottom: 20px;
+}
+
+.container {
+  background: black;
+  padding: 20px;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label {
+  margin: 10px 0 5px;
+  margin-right: 455px;
+}
+
+input[type="text"],
+input[type="number"] {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 5px;
+  width: 500px;
+}
+
+button[type="submit"] {
+  background: #0a0a0a;
+  border: 2px solid #3E8914;
+  color: #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: 'Titillium Web', sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+button[type="submit"]:hover {
+  background:#3FFF00;
+}
+
+/* Footer styles */
+footer {
+  text-align: center;
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #333;
+}
+
+footer p {
+  margin: 5px 0;
+}
+
+footer a {
+  color: #0ffa5a;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}

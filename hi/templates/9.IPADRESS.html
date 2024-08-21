@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View IP Addresses by Admin ID</title>
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,600" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="favicon-16x16.png">
+    <style>
+        body {
+            background: #0a0a0a;
+            padding: 50px 0;
+            color: #fff;
+            font-family: 'Titillium Web', sans-serif;
+        }
+
+        header {
+            display: flex;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #0a0a0a;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 500px;
+            margin-right: 700px;
+            margin-left: 290px;
+        }
+
+        header button {
+            background: none;
+            border: none;
+            font-family: 'Titillium Web', sans-serif;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin: 0 .5em;
+            padding: .5em .8em;
+            color: rgba(255,255,255,.5);
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        header button a {
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            font-size: 20px;
+            z-index: 1;
+        }
+
+        header button::before,
+        header button::after {
+            content: '';
+            height: 14px;
+            width: 14px;
+            position: absolute;
+            transition: all .35s ease;
+            opacity: 0;
+            z-index: 0;
+        }
+
+        header button::before {
+            right: 0;
+            top: 0;
+            border-top: 3px solid #3E8914;
+            border-right: 3px solid #2E640F;
+            transform: translate(-100%, 50%);
+        }
+
+        header button::after {
+            left: 0;
+            bottom: 0;
+            border-bottom: 3px solid #2E640F;
+            border-left: 3px solid #3E8914;
+            transform: translate(100%, -50%);
+        }
+
+        header button:hover::before,
+        header button:hover::after {
+            transform: translate(0, 0);
+            opacity: 1;
+        }
+
+        header button:hover a {
+            color:#3FFF00;
+        }
+        .dot {
+                width: 20px;
+                height: 20px;
+                background-color: green;
+                border-radius: 50%;
+                animation: zoom 3s infinite;
+            }
+
+        @keyframes zoom {
+            0% {
+                transform: scale(1) translateZ(0);
+                }
+            50% {
+            transform: scale(5) translateZ(200px);
+                }
+            100% {
+            transform: scale(1) translateZ(0);
+            }
+        }
+
+        .container {
+            background: black;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            align-items: center;
+            margin-left: 700px;
+            margin-top: 275px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            color: #fff;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+            width: 500px;
+        }
+
+        button[type="submit"] {
+            background: #0a0a0a;
+            border: 2px solid #3E8914;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'Titillium Web', sans-serif;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        button[type="submit"]:hover {
+            background: #3FFF00;
+        }
+
+        .project-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .project-list li {
+            background: #1c1c1c;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #333;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: #0ffa5a;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">IAM MANAGEMENT</div>
+        <nav>
+            <button><a href="HOME.html">Home</a></button>
+            <button><a href="DASHBOARD.html">Dashboard</a></button>
+            <button><a href="welcome.html">LOGOUT</a></button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>View IP Addresses by Admin ID</h1>
+        <form id="view-ip-form">
+            <label for="admin-id">Admin ID:</label>
+            <input type="text" id="admin-id" required>
+
+            <button type="submit">View IP Addresses</button>
+        </form>
+
+        <ul id="ip-list" class="project-list"></ul>
+    </div>
+    <div class="dot"></div>
+    <footer>
+        <p>&copy; 2024 My Website. All rights reserved.</p>
+        <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Service</a>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhqwM0fuSacUUedhspxsZdhToh3sA3J2o",
+            authDomain: "iam-dashborad.firebaseapp.com",
+            databaseURL: "https://iam-dashborad-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "iam-dashborad",
+            storageBucket: "iam-dashborad.appspot.com",
+            messagingSenderId: "162560536071",
+            appId: "1:162560536071:web:3d253c875151b7bd3b04a2"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        document.getElementById('view-ip-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const adminId = document.getElementById('admin-id').value;
+            const ipListElement = document.getElementById('ip-list');
+            ipListElement.innerHTML = ''; // Clear previous IPs
+
+            const projectsRef = ref(database, `admins/${adminId}/projects`);
+
+            get(projectsRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const projects = snapshot.val();
+                    for (const projectTitle in projects) {
+                        const users = projects[projectTitle].users;
+                        if (users) {
+                            for (const userId in users) {
+                                const ip = users[userId].ip;
+                                if (ip) {
+                                    const listItem = document.createElement('li');
+                                    listItem.textContent = `Project: ${projectTitle}, User: ${userId}, IP: ${ip}`;
+                                    ipListElement.appendChild(listItem);
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    alert('No projects found for the given Admin ID.');
+                }
+            }).catch((error) => {
+                alert('Error fetching IP addresses: ' + error.message);
+            });
+        });
+    </script>
+</body>
+
+</html>
